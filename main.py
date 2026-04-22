@@ -2,6 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import Polygon
+import os
+from datetime import datetime
+
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+output_dir = f"results_{timestamp}"
+os.makedirs(output_dir, exist_ok=True)
 
 # ==================== НАСТРОЙКИ ====================
 def f(x):
@@ -175,6 +181,9 @@ def plot_rectangle_method(f, a, b, n, exact_value):
     ax[1].set_title('Фрагмент (первые 3 прямоугольника)')
     ax[1].grid(True, alpha=0.3)
     
+    filepath = os.path.join(output_dir, f'rectangle_n{n}.png')
+    plt.savefig(filepath, dpi=300, bbox_inches='tight', facecolor='white')
+
     plt.tight_layout()
     plt.show()
 
@@ -220,6 +229,9 @@ def plot_trapezoidal_method(f, a, b, n, exact_value):
     ax[1].set_title('Фрагмент (первые 3 трапеции)')
     ax[1].grid(True, alpha=0.3)
     
+    filepath = os.path.join(output_dir, f'trapezoidal_n{n}.png')
+    plt.savefig(filepath, dpi=300, bbox_inches='tight', facecolor='white')
+
     plt.tight_layout()
     plt.show()
 
@@ -267,6 +279,9 @@ def plot_simpson_method(f, a, b, n, exact_value):
     ax[1].set_title('Фрагмент (первые 2 параболических сегмента)')
     ax[1].grid(True, alpha=0.3)
     
+    filepath = os.path.join(output_dir, f'simpson_n{n}.png')
+    plt.savefig(filepath, dpi=300, bbox_inches='tight', facecolor='white')
+
     plt.tight_layout()
     plt.show()
 
@@ -277,7 +292,7 @@ print("ВИЗУАЛИЗАЦИЯ МЕТОДОВ (n=10)")
 print("="*70)
 print("Закройте каждое окно с графиком, чтобы перейти к следующему...")
 
-plot_rectangle_method(f, a, b, 100, exact_value)
+plot_rectangle_method(f, a, b, 10, exact_value)
 plot_trapezoidal_method(f, a, b, 10, exact_value)
 plot_simpson_method(f, a, b, 10, exact_value)
 
@@ -293,5 +308,9 @@ plt.ylabel('Абсолютная погрешность')
 plt.title('Сходимость численных методов')
 plt.legend()
 plt.grid(True, which='both', alpha=0.3)
+
+conv_path = os.path.join(output_dir, 'convergence.png')
+plt.savefig(conv_path, dpi=300, bbox_inches='tight', facecolor='white')
+
 plt.tight_layout()
 plt.show()
